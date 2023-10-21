@@ -19,4 +19,4 @@ t1 = timeit.Timer(lambda: np.apply_along_axis(func.eval_fitness,axis=1, arr=pop.
 t2 = timeit.Timer(lambda: func.eval_fitness_ufunc(pop)).timeit(number=1000)
 
 print("Time 1: ",t1)
-print("Time 2", t2)
+print("Time 2:", t2)
