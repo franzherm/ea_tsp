@@ -11,12 +11,14 @@ distance_matrix = get_distance_matrix_from_city_xml("../xml/burma14.xml")
 func = FitnessFunction(distance_matrix)
 pop = TspPermutationPopulation(1000,13)
 
-
 fitness1 = np.apply_along_axis(func.eval_fitness,axis=1, arr=pop.data)
 fitness2 = func.eval_fitness_ufunc(pop)
 
-t1 = timeit.Timer(lambda: np.apply_along_axis(func.eval_fitness,axis=1, arr=pop.data)).timeit(number=1000)
-t2 = timeit.Timer(lambda: func.eval_fitness_ufunc(pop)).timeit(number=1000)
+assert np.array_equal(fitness1,fitness2)
+print(fitness1,"\n")
+
+t1 = timeit.Timer(lambda: np.apply_along_axis(func.eval_fitness,axis=1, arr=pop.data)).timeit(number=10000)
+t2 = timeit.Timer(lambda: func.eval_fitness_ufunc(pop)).timeit(number=10000)
 
 print("Time 1: ",t1)
-print("Time 2:", t2)
+print("Time 2: ",t2)

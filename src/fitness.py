@@ -26,6 +26,4 @@ class FitnessFunction:
         pop_shifted = np.column_stack((population.data, city0)) # add city 0 to the end of every solution
 
         cost_array = self.distance_matrix[pop,pop_shifted]
-        fitness_array = np.sum(cost_array, axis=1)
-        
-        return fitness_array
+        return np.sum(cost_array, axis=1)
