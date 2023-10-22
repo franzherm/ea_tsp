@@ -3,16 +3,16 @@ import numpy as np
 import timeit
 sys.path.append('../src')
 
-from population import TspPermutationPopulation
-from fitness import FitnessFunction
 from city_xml_parser import get_distance_matrix_from_city_xml
 from selection import TournamentSelection
 
 distance_matrix = get_distance_matrix_from_city_xml("../xml/burma14.xml")
-fitfunc = FitnessFunction(distance_matrix)
-pop = TspPermutationPopulation(20,13)
 
-fitness = fitfunc.eval_fitness_ufunc(pop)
+selfunc = TournamentSelection(tournament_size=5)
 
-selfunc = TournamentSelection(5)
-selfunc.select_from_population(pop, fitness, 2)
+selection = np.zeros(100000)
+for i in range(100000):
+    selection[i] = selfunc.select_parent_from_population(np.arange(20), np.arange(20))
+
+for i in range(20):
+    print(f"Element {i} chosen: {np.sum(selection == i)}")
