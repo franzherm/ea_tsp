@@ -4,10 +4,10 @@ import numpy as np
 def get_distance_matrix_from_city_xml(filepath: str) -> np.ndarray:
     """Parses TSPLib conforming xml file and returns city distance matrix
 
-    Parameters:
+    ### Parameters:
     filepath (str) -- path to a TSPLib xml file
 
-    Returns:
+    ### Returns:
     np.ndarray: city distance matrix
     """
     root = ET.parse(filepath).getroot()
