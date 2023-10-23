@@ -1,6 +1,9 @@
 from abc import ABC, abstractmethod
 import numpy as np
 
+
+"""See 2015_Book_IntroductionToEvolutionaryComp"""
+
 class MutationFunction(ABC):
     
     @abstractmethod
@@ -39,3 +42,12 @@ class SwapMutation(MutationFunction):
             individuals[row_indices,swap] = individuals[row_indices,swap[:,::-1]]
 
         return swap_indices
+
+class InversionMutation(MutationFunction):
+    pass
+
+class InsertMutation(MutationFunction):
+    pass
+
+class ScrambleMutation(MutationFunction):
+    pass
