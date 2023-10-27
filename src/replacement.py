@@ -41,7 +41,7 @@ class ReplaceFirstWeakest(ReplacementFunction):
         replaced_indexes = []
         for i in range(children.shape[0]): #traverse through all children
             weaker_individuals = np.argwhere(cost_population >= cost_children[i]) # get elements of population that are worse than particular child
-            weaker_individuals = weaker_individuals[weaker_individuals not in replaced_indexes] # exclude positions of children that already replaced a former individual this iteration
+            weaker_individuals = weaker_individuals[~np.isin(weaker_individuals, replaced_indexes)] # exclude positions of children that already replaced a former individual this iteration
             if weaker_individuals.size != 0:
                 population[weaker_individuals[0]] = children[i] #replace the first occurence of a weaker individual in the population with the child
                 replaced_indexes.append(weaker_individuals[0]) #add index to list of already replaced indexes
