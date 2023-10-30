@@ -6,6 +6,7 @@ class SelectionFunction(ABC):
     
     @abstractmethod
     def select_parent_from_population(self, population: Population, fitness: np.ndarray) -> np.ndarray:
+        "Returns index of parents"
         pass
 
 class TournamentSelection(SelectionFunction):

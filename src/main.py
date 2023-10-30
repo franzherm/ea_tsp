@@ -1,4 +1,26 @@
 from population import TspPermutationPopulation
-
-pop = TspPermutationPopulation(14,14)
+from evolutionary_algorithm import EvolutionaryAlgorithm
+from fitness import FitnessFunction
+from city_xml_parser import get_distance_matrix_from_city_xml
+from matplotlib import pyplot as plt
+import selection
+import crossover
+import mutation
+import replacement
+pop = TspPermutationPopulation(100,57)
 print(pop,"\n")
+
+fitness_function = FitnessFunction(get_distance_matrix_from_city_xml("../xml/brazil58.xml"))
+selection_function = selection.TournamentSelection(10)
+crossover_function = crossover.PmxCrossover(57)
+mutation_function = mutation.SwapMutation(1)
+replacement_function = replacement.ReplaceFirstWeakest()
+
+ea = EvolutionaryAlgorithm(pop,fitness_function, selection_function, crossover_function, mutation_function, replacement_function)
+
+data = ea.run(10000)
+
+print(data)
+
+data.plot.line()
+plt.show()

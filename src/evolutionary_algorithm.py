@@ -7,7 +7,7 @@ from mutation import MutationFunction
 from fitness import FitnessFunction
 from crossover import CrossoverFunction
 from population import Population
-from progressbar import progressbar
+import progressbar
 
 class EvolutionaryAlgorithm:
 
@@ -25,18 +25,21 @@ class EvolutionaryAlgorithm:
 
         #initialise empty numpy array to populate during the run
         column_headers = ["LowestCost","HighestCost","AvgCost"]
-        data = np.empty(number_of_iterations,len(column_headers))
+        data = np.zeros((number_of_iterations,len(column_headers)))
         
-        with progressbar.ProgressBar(max_value=number_of_iterations) as progress_bar:
+        with progressbar.ProgressBar(max_value=number_of_iterations) as progress:
             for iteration in range(number_of_iterations):
                 #update progress bar
-                progress_bar.update(iteration)
+                progress.update(iteration)
+
                 #calculate fitness
-                cost = self.fitness_function.eval_fitness(self.population)
+                cost = self.fitness_function.eval_fitness(self.population.data)
                 data[iteration] = [cost.min(), cost.max(), cost.mean()]
+
                 #select parents
-                parents = np.array([self.selection_function.select_parent_from_population(self.population, cost),
+                parent_indexes = np.array([self.selection_function.select_parent_from_population(self.population, cost),
                                     self.selection_function.select_parent_from_population(self.population, cost)])
+                parents = self.population.data[parent_indexes]
 
                 #generate children
                 children = self.crossover_function.perform_crossover(parents)
@@ -45,7 +48,8 @@ class EvolutionaryAlgorithm:
                 self.mutation_function.mutate(children)
 
                 #substitute children into population
-                self.replacement_function.replace(self.population, children, cost, self.fitness_function.eval_fitness(children))
+                self.replacement_function.replace(self.population.data, children, cost, self.fitness_function.eval_fitness(children))
+        
         #create pandas dataframe with collected data
         df = pd.DataFrame(data, columns=column_headers)
         return df

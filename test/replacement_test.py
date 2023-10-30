@@ -18,7 +18,7 @@ children = TspPermutationPopulation(2,13)
 replacement_function = ReplaceFirstWeakest()
 
 print("Population: \n",pop,"\n")
-replacement_function.replace(pop.data, children.data, fitness_function.eval_fitness_ufunc(pop), fitness_function.eval_fitness_ufunc(children))
+replacement_function.replace(pop.data, children.data, fitness_function.eval_fitness(pop), fitness_function.eval_fitness(children))
 print("Children: \n",children,"\n")
 print("New Pop: \n", pop)
 

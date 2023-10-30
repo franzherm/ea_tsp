@@ -16,7 +16,7 @@ class PmxCrossover(CrossoverFunction):
     
     def perform_crossover(self, parents: np.ndarray) -> np.ndarray:
         p1,p2 = np.sort(np.random.randint(self.chromosome_size, size=2))
-        children = np.zeros(shape=(2,self.chromosome_size))
+        children = np.zeros(shape=(2,self.chromosome_size), dtype=int)
 
         #copy elements within crossover_points from parents to children
         children[:,p1:p2+1] = parents[:,p1:p2+1]
