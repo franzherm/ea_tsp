@@ -20,8 +20,10 @@ class EvolutionaryAlgorithm:
 
         self.current_iteration: int = 0
 
-    def optimise(number_of_iterations: int) -> pd.DataFrame:
-        pass
+    def run(self, number_of_iterations: int) -> pd.DataFrame:
+        
+        #calculate fitness
+        cost = self.fitness_function.eval_fitness
 
     
     
