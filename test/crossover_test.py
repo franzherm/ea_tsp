@@ -25,3 +25,6 @@ func = OrderCrossover(pop.data.shape[1])
 children = func.perform_crossover(pop.data)
 
 print("Final children: \n", children)
+
+t2 = timeit.Timer(lambda: func.perform_crossover(pop.data)).timeit(10000)
+print("Time: ",t2)

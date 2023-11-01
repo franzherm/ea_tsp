@@ -54,9 +54,7 @@ class OrderCrossover(CrossoverFunction):
 
         #copy elements within crossover_points from parents to children
         children[:,p1:p2+1] = parents[:,p1:p2+1]
-        print("Initial Children:\n")
-        print(children, "\n")
-
+        
         #determine missing values for both children
         #shift parents so that the first index is the first element after the second crossover point that wasn't copied to the child
         values_to_insert = np.array([np.roll(parents[0],shift=-(p2+1)),
@@ -66,9 +64,8 @@ class OrderCrossover(CrossoverFunction):
         values_to_insert = values_to_insert[:,:(self.chromosome_size - number_of_inserted_elements)]
         #transform from numpy array to python list in order to easily remove elements
         values_to_insert = values_to_insert.tolist()
-        #values_to_insert[0] = values_to_insert[0].tolist()
-        #values_to_insert[1] = values_to_insert[1].tolist()
 
+        #traverse through parents
         for i in range(2):
             parent_index = (p2+1)%self.chromosome_size
             child_index = (p2+1)%self.chromosome_size
