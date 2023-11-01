@@ -15,8 +15,8 @@ class CrossoverFunction(ABC):
 class PmxCrossover(CrossoverFunction):
     
     def perform_crossover(self, parents: np.ndarray) -> np.ndarray:
-        p1,p2 = np.sort(np.random.randint(self.chromosome_size, size=2))
-        children = np.zeros(shape=(2,self.chromosome_size), dtype=int)
+        p1,p2 = np.sort(np.random.randint(self.chromosome_size, size=2)) #determine crossover points
+        children = np.zeros(shape=(2,self.chromosome_size), dtype=int) #initialise children
 
         #copy elements within crossover_points from parents to children
         children[:,p1:p2+1] = parents[:,p1:p2+1]
@@ -47,11 +47,44 @@ class PmxCrossover(CrossoverFunction):
 
         return children
 
-class EdgeCrossover(CrossoverFunction):
-    pass
-
 class OrderCrossover(CrossoverFunction):
-    pass
+    def perform_crossover(self, parents: np.ndarray) -> np.ndarray:
+        p1,p2 = np.sort(np.random.randint(self.chromosome_size, size=2)) #determine crossover points
+        children = np.zeros(shape=(2,self.chromosome_size), dtype=int) #initialise children
 
-class CycleCrossover(CrossoverFunction):
-    pass
+        #copy elements within crossover_points from parents to children
+        children[:,p1:p2+1] = parents[:,p1:p2+1]
+        print("Initial Children:\n")
+        print(children, "\n")
+
+        #determine missing values for both children
+        #shift parents so that the first index is the first element after the second crossover point that wasn't copied to the child
+        values_to_insert = np.array([np.roll(parents[0],shift=-(p2+1)),
+                                     np.roll(parents[1],shift=-(p2+1))])
+        #trim values so that the ones copied to the children are excluded
+        number_of_inserted_elements = (p2+1) - p1
+        values_to_insert = values_to_insert[:,:(self.chromosome_size - number_of_inserted_elements)]
+        #transform from numpy array to python list in order to easily remove elements
+        values_to_insert = values_to_insert.tolist()
+        #values_to_insert[0] = values_to_insert[0].tolist()
+        #values_to_insert[1] = values_to_insert[1].tolist()
+
+        for i in range(2):
+            parent_index = (p2+1)%self.chromosome_size
+            child_index = (p2+1)%self.chromosome_size
+
+            while child_index != p1:
+                current_value = parents[i,parent_index]
+                if(current_value in values_to_insert[(i+1)%2]):
+                    children[(i+1)%2,child_index] = current_value #insert missing value into child
+                    child_index = (child_index+1)%self.chromosome_size #increment child index
+                    values_to_insert[(i+1)%2].remove(current_value)
+
+                parent_index = (parent_index+1)%self.chromosome_size #increment parent value
+                    
+        return children
+
+
+class CrossoverWithFix(CrossoverFunction):
+    def perform_crossover(self, parents: np.ndarray) -> np.ndarray:
+        pass
