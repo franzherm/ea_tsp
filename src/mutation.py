@@ -35,7 +35,7 @@ class SwapMutation(MutationFunction):
         assert individuals.ndim == 2
         number_of_individuals, number_of_genes = individuals.shape
 
-        swap_indices = np.random.choice(number_of_genes, (self.number_of_swaps, number_of_individuals, 2))
+        swap_indices = np.random.choice(number_of_genes, size=(self.number_of_swaps, number_of_individuals, 2))
         row_indices = np.tile(np.array([np.arange(number_of_individuals)]).T,(1,2))
 
         for swap in swap_indices:
@@ -44,10 +44,22 @@ class SwapMutation(MutationFunction):
         return swap_indices
 
 class InversionMutation(MutationFunction):
-    pass
+    def mutate(self, individuals: np.ndarray) -> np.ndarray:
+        assert individuals.ndim == 2
+        number_of_individuals, number_of_genes = individuals.shape
+        inversion_indices = np.random.choice(number_of_genes, size=(number_of_individuals, 2))
+
+        for i in range(number_of_individuals):
+            p1,p2 = inversion_indices[i]
+            slice_length = (p2 - p1 + 1) if p2 >= p1 else (number_of_genes - p1) + (p2 + 1)
+
+            rolled_individual = np.roll(individuals[i],-p1) #shift so that p1 is at index 0
+            inverted_slice = rolled_individual[:slice_length][::-1] #get the slice and invert
+            rolled_individual[:slice_length] = inverted_slice #put inverted slice in individual
+            individuals[i] = np.roll(rolled_individual,p1) #shift back
+
+        return individuals
 
 class InsertMutation(MutationFunction):
-    pass
-
-class ScrambleMutation(MutationFunction):
-    pass
+    def mutate(self, individuals: np.ndarray) -> np.ndarray:
+        pass

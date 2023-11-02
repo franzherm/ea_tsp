@@ -84,4 +84,23 @@ class OrderCrossover(CrossoverFunction):
 
 class CrossoverWithFix(CrossoverFunction):
     def perform_crossover(self, parents: np.ndarray) -> np.ndarray:
-        pass
+        crossover_point = np.random.randint(self.chromosome_size)
+        children = np.copy(parents) #initialise children
+
+        #perform one point crossover
+        children[:,crossover_point:] = parents[::-1,crossover_point:]
+
+        #determine missing elements
+        all_elements = np.array([np.arange(start=1,stop=self.chromosome_size+1)]*2)
+        missing_elements = [np.setdiff1d(all_elements[0],children[0]).tolist(),np.setdiff1d(all_elements[1],children[1]).tolist()]
+
+        #replace duplicate elements with missing ones
+        for i in range (2):
+            j = 0
+            while len(missing_elements[i]) != 0: #while there are still elements missing in the child
+                current_element = children[i,j]
+                if current_element in children[i,(j+1):]: #check if current element is a duplicate
+                    children[i,j] = missing_elements[i][0] #replace duplicate with first element of missing list
+                    missing_elements[i].pop(0)
+                j+=1
+        return children
