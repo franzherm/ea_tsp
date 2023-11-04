@@ -12,7 +12,7 @@ import progressbar
 class EvolutionaryAlgorithm:
 
     def __init__(self, initial_population: Population, fitness_function: FitnessFunction, selection_function: SelectionFunction,
-                 crossover_function: CrossoverFunction, mutation_function: MutationFunction, replacement_function: ReplacementFunction) -> None:
+                 crossover_function: CrossoverFunction, mutation_function: MutationFunction, replacement_function: ReplacementFunction, mutation_rate: float = 0.15, crossover_rate: float = 0.8) -> None:
         
         self.population: Population = initial_population
         self.fitness_function: FitnessFunction = fitness_function
@@ -20,6 +20,11 @@ class EvolutionaryAlgorithm:
         self.crossover_function: CrossoverFunction = crossover_function
         self.mutation_function: MutationFunction = mutation_function
         self.replacement_function: ReplacementFunction = replacement_function
+
+        assert 0 <= mutation_rate <= 1 and 0 <= crossover_rate <= 1, "Both mutation and crossover rate must in the interval [0,1]"
+
+        self.mutation_rate: float = mutation_rate
+        self.crossover_rate: float = crossover_rate
 
     def run(self, number_of_iterations: int) -> pd.DataFrame:
 
@@ -42,10 +47,13 @@ class EvolutionaryAlgorithm:
                 parents = self.population.data[parent_indexes]
 
                 #generate children
-                children = self.crossover_function.perform_crossover(parents)
+                children = parents.copy()
+                if self.crossover_rate >= np.random.random():
+                    children = self.crossover_function.perform_crossover(parents)
 
                 #mutate children
-                self.mutation_function.mutate(children)
+                if self.mutation_rate >= np.random.random():
+                    self.mutation_function.mutate(children)
 
                 #substitute children into population
                 self.replacement_function.replace(self.population.data, children, cost, self.fitness_function.eval_fitness(children))
