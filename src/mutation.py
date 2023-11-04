@@ -7,7 +7,8 @@ import numpy as np
 class MutationFunction(ABC):
     
     @abstractmethod
-    def mutate(self, individuals: np.ndarray) -> np.ndarray:
+    def mutate(self, individuals: np.ndarray):
+        " Performs an in-place mutation operation on the individuals"
         pass
 
 
@@ -16,7 +17,7 @@ class SwapMutation(MutationFunction):
     def __init__(self, number_of_swaps:int = 1) -> None:
         self.number_of_swaps:int = number_of_swaps
 
-    def mutate(self, individuals: np.ndarray) -> np.ndarray:
+    def mutate(self, individuals: np.ndarray) -> None:
         """ Performs n swap mutations for the given set of individuals, where n is the number specified during instantiation of the SwapMutation object.
 
         For each of the n swaps, 2 indices are chosen for each individual by using numpy.random.choice().
@@ -41,16 +42,13 @@ class SwapMutation(MutationFunction):
         for swap in swap_indices:
             individuals[row_indices,swap] = individuals[row_indices,swap[:,::-1]]
 
-        return swap_indices
-
 class InversionMutation(MutationFunction):
-    def mutate(self, individuals: np.ndarray) -> np.ndarray:
+    def mutate(self, individuals: np.ndarray) -> None:
         assert individuals.ndim == 2
         number_of_individuals, number_of_genes = individuals.shape
-        inversion_indices = np.random.choice(number_of_genes, size=(number_of_individuals, 2))
 
         for i in range(number_of_individuals):
-            p1,p2 = inversion_indices[i]
+            p1,p2 = np.random.choice(number_of_genes, size=2, replace=False)
             slice_length = (p2 - p1 + 1) if p2 >= p1 else (number_of_genes - p1) + (p2 + 1)
 
             rolled_individual = np.roll(individuals[i],-p1) #shift so that p1 is at index 0
@@ -58,8 +56,16 @@ class InversionMutation(MutationFunction):
             rolled_individual[:slice_length] = inverted_slice #put inverted slice in individual
             individuals[i] = np.roll(rolled_individual,p1) #shift back
 
-        return individuals
-
 class InsertMutation(MutationFunction):
-    def mutate(self, individuals: np.ndarray) -> np.ndarray:
-        pass
+    def mutate(self, individuals: np.ndarray) -> None:
+        assert individuals.ndim == 2
+        number_of_individuals, number_of_genes = individuals.shape
+        for i in range (number_of_individuals):
+            p1, p2 = np.sort(np.random.choice(number_of_genes, size=2, replace=False))
+            if p1 +1 == p2:
+                continue
+
+            moving_element = individuals[i,p2] #get element to be shifted next to p1
+            individuals[i,p1+2:p2+1] = individuals[i,p1+1:p2] #shift all element between p1 and p2 one element to the right
+            individuals[i,p1+1] = moving_element #place the moving element next to p1
+
