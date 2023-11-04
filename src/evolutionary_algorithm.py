@@ -26,6 +26,9 @@ class EvolutionaryAlgorithm:
         self.mutation_rate: float = mutation_rate
         self.crossover_rate: float = crossover_rate
 
+        self.mutation_counter = 0
+        self.crossover_counter = 0
+
     def run(self, number_of_iterations: int) -> pd.DataFrame:
 
         #initialise empty numpy array to populate during the run
@@ -49,11 +52,12 @@ class EvolutionaryAlgorithm:
                 #generate children
                 children = parents.copy()
                 if self.crossover_rate >= np.random.random():
+                    self.crossover_counter +=1
                     children = self.crossover_function.perform_crossover(parents)
 
                 #mutate children
-                if self.mutation_rate >= np.random.random():
-                    self.mutation_function.mutate(children)
+                boolean_array = self.mutation_rate >= np.random.random(size=children.shape[0])
+                children[boolean_array] = self.mutation_function.mutate(children[boolean_array])
 
                 #substitute children into population
                 self.replacement_function.replace(self.population.data, children, cost, self.fitness_function.eval_fitness(children))
