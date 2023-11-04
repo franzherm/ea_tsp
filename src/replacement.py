@@ -88,7 +88,3 @@ class ReplaceWeakest(ReplacementFunction):
             index_mask[chosen_index] = 1 #remove already replaced indexes from consideration
 
         return replaced_indexes
-    
-
-
-#TODO: class MaintainDiversity?
