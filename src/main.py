@@ -19,8 +19,6 @@ replacement_function = replacement.ReplaceFirstWeakest()
 ea = EvolutionaryAlgorithm(pop,fitness_function, selection_function, crossover_function, mutation_function, replacement_function)
 
 data = ea.run(10000)
-print("Crossover counter: ",ea.crossover_counter)
-print("Mutation counter: ", ea.mutation_counter)
 #print(data)
 
 data.plot.line()
