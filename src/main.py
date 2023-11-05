@@ -19,7 +19,7 @@ replacement_function = replacement.ReplaceFirstWeakest()
 ea = EvolutionaryAlgorithm(pop,fitness_function, selection_function, crossover_function, mutation_function, replacement_function)
 
 data = ea.run(10000)
-#print(data)
+print(data)
 
 data.plot.line()
 plt.show()

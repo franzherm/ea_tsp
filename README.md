@@ -6,14 +6,35 @@ It consists of a programming task as well as a report.
 ### Experiment Operators / Parameters:
 
 ##### Mutation
-    - Definitely.
+    - Swap mutation
+    - Inversion mutation
+    - Insert mutation
 ##### Crossover
-    - Definitely.
+    - PMX Crossover
+    - Order Crossover
+    - Crossover with fix
 ##### Population Size
-    - Definitely, maybe dependend on chromosome size
+	- 10
+    - 100
+    - 500
 ##### Tournament Size / Ratio to Pop Size
-    - Definitely. Ratio between tournament size and population size is probably the one that matters rather than the tournament size alone
+    - 5%
+    - 10%
+    - 50%
 ##### Replacement Operator
-    - Definetely as it will change how the worst solution graph behaves
-##### Crossover and Mutation probability
-    - Definitely
+    - Replace weakest
+    - Replace first weakest
+##### Crossover probability
+    - 30%
+    - 80%
+##### Mutation probability
+	- 15%
+	- 50%
+	
+For each experiment, only one of the parameters / operators will be varied.
+Combinatoricly that amounts to: 3 * 3 * 3 * 3 * 2 * 2 * 2 = 648 different experiments. 
+Because each experiment will be carried out 10 times to ensure that random chance accounts for less variation in the outcome, 6480 runs will be performed for each of the two datasets.
+
+Questions: 
+	- is the optimal population size dependend on the solution space ?
+	- for crossover and mutations: one parameter a popular one according to literature, the other one is towards the other end of the spectrum
