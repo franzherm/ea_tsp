@@ -67,7 +67,6 @@ class ReplaceWeakest(ReplacementFunction):
         
         replaced_indexes = []
         index_mask = np.zeros(population.shape[0], dtype=int)
-        print(index_mask)
         #sort children by ascending cost
         sorted_indexes = np.argsort(cost_children)
         children = children[sorted_indexes]
@@ -81,7 +80,6 @@ class ReplaceWeakest(ReplacementFunction):
                 break #stop placing children in array if they are worse than the worst individuals in population
 
             weakest_individuals = np.argwhere(masked_cost_population == highest_cost).ravel()
-            print(weakest_individuals)
             chosen_index = np.random.choice(weakest_individuals,1)[0]
             population[chosen_index] = children[i]
             replaced_indexes.append(chosen_index)
