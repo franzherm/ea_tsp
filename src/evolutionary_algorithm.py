@@ -9,6 +9,8 @@ from population import Population
 
 class EvolutionaryAlgorithm:
 
+    population_metrics_headers = ["LowestCost","HighestCost","AvgCost"]
+
     def __init__(self, initial_population: Population, fitness_function: FitnessFunction, selection_function: SelectionFunction,
                  crossover_function: CrossoverFunction, mutation_function: MutationFunction, replacement_function: ReplacementFunction,
                  mutation_rate: float = 0.15, crossover_rate: float = 0.8) -> None:
@@ -25,11 +27,10 @@ class EvolutionaryAlgorithm:
         self.mutation_rate: float = mutation_rate
         self.crossover_rate: float = crossover_rate
 
-    def run(self, number_of_iterations: int) -> pd.DataFrame:
+    def run(self, number_of_iterations: int) -> np.ndarray:
 
         #initialise empty numpy array to populate during the run
-        column_headers = ["LowestCost","HighestCost","AvgCost"]
-        data = np.zeros((number_of_iterations,len(column_headers)))
+        data = np.zeros((number_of_iterations, len(EvolutionaryAlgorithm.population_metrics_headers)))
         
         for iteration in range(number_of_iterations):
             #calculate fitness
@@ -53,7 +54,6 @@ class EvolutionaryAlgorithm:
             #substitute children into population
             self.replacement_function.replace(self.population.data, children, cost, self.fitness_function.eval_fitness(children))
         
-        #create pandas dataframe with collected data
-        df = pd.DataFrame(data, columns=column_headers)
-        return df
+        #return collected data
+        return data
     

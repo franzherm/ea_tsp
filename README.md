@@ -14,7 +14,7 @@ It consists of a programming task as well as a report.
     - Order Crossover
     - Crossover with fix
 ##### Population Size
-	- 10
+	- 25
     - 100
     - 500
 ##### Tournament Size / Ratio to Pop Size
