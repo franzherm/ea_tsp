@@ -110,15 +110,22 @@ data_overview[:,1] = data_detailed[:,-1,1]
 data_overview[:,2] = data_detailed[:,-1,2]
 ####################################################
 ##################### Save Data ####################
-if not os.path.exists("../csv"):
+if not os.path.exists("../csv"): #create csv directory
     os.makedirs("../csv")
 
-configuration_frame = pd.DataFrame(data_parameter_values, columns=list(tsp_config.keys()))
-result_frame = pd.DataFrame(data_overview, columns=column_headers)
+#create overview dataframe
+configuration_frame_overview = pd.DataFrame(data_parameter_values, columns=list(tsp_config.keys()))
+result_overview_frame = pd.DataFrame(data_overview, columns=column_headers)
+overview_df = pd.concat([configuration_frame_overview, result_overview_frame], axis=1)
 
-overview_df = pd.concat([configuration_frame, result_frame], axis=1)
+#create detailed dataframe
+result_detailed_frame_index = pd.MultiIndex.from_product([range(data_detailed.shape[0]), range(data_detailed.shape[1])], names=["Experiment", "Iteration"])
+detailed_df = pd.DataFrame(data_detailed.reshape(-1, data_detailed.shape[2]), index=result_detailed_frame_index, columns=column_headers)
+
+#save dataframes
 overview_df.to_csv("../csv/overview_df.csv")
+detailed_df.to_csv("../csv/detailed_df.csv")
+
+#display dataframe
 pd.set_option('display.max_columns', None); 
-print(overview_df)
-#TODO: save top dataframe to file
-#TODO: write code to display results (possibly in different file and use saved dataframe file for that so that the experiment doesn't have to run again)
+print(detailed_df)

@@ -1,4 +1,4 @@
 ,distance_matrix_names,crossover_functions,mutation_functions,replacement_functions,mutation_rates,crossover_rates,tournament_rates,population_sizes,LowestCost,HighestCost,AvgCost
-0,../xml/burma14.xml,PmxCrossover,SwapMutation,ReplaceWeakest,0.15,0.3,0.05,25,4189.0,4189.0,4189.0
-1,../xml/burma14.xml,PmxCrossover,SwapMutation,ReplaceWeakest,0.15,0.3,0.05,100,3653.0,3653.0,3653.0
-2,../xml/burma14.xml,PmxCrossover,SwapMutation,ReplaceWeakest,0.15,0.3,0.05,500,3669.0,3669.0,3669.0
+0,../xml/burma14.xml,PmxCrossover,SwapMutation,ReplaceWeakest,0.15,0.3,0.05,25,4088.0,4088.0,4088.0
+1,../xml/burma14.xml,PmxCrossover,SwapMutation,ReplaceWeakest,0.15,0.3,0.05,100,4097.0,4097.0,4097.0
+2,../xml/burma14.xml,PmxCrossover,SwapMutation,ReplaceWeakest,0.15,0.3,0.05,500,4435.0,4435.0,4435.0
