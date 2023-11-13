@@ -5,6 +5,10 @@ It consists of a programming task as well as a report.
 
 ### Experiment Operators / Parameters:
 
+##### Distance Matrix
+    -Burma
+    -Brazil
+
 ##### Mutation
     - Swap mutation
     - Inversion mutation
@@ -32,9 +36,20 @@ It consists of a programming task as well as a report.
 	- 50%
 	
 For each experiment, only one of the parameters / operators will be varied.
-Combinatoricly that amounts to: 3 * 3 * 3 * 3 * 2 * 2 * 2 = 648 different experiments. 
-Because each experiment will be carried out 10 times to ensure that random chance accounts for less variation in the outcome, 6480 runs will be performed for each of the two datasets.
+Combinatoricly that amounts to: 2 * 3 * 3 * 3 * 3 * 2 * 2 * 2 = 1296 different experiments. 
+Because each experiment will be carried out 10 times to ensure that random chance accounts for less variation in the outcome, 12960 runs will be performed for the two datasets.
 
-Questions: 
-	- is the optimal population size dependend on the solution space ?
-	- for crossover and mutations: one parameter a popular one according to literature, the other one is towards the other end of the spectrum
+The configuration section of the main.py file looked as follows for the conducted experimets:
+
+tsp_config = {
+    "distance_matrix_names": ["../xml/burma14.xml", "../xml/brazil58.xml"],
+    "crossover_functions": [crossover.PmxCrossover, crossover.OrderCrossover, crossover.CrossoverWithFix],
+    "mutation_functions":  [mutation.SwapMutation, mutation.InversionMutation, mutation.InsertMutation],
+    "replacement_functions": [replacement.ReplaceWeakest, replacement.ReplaceFirstWeakest],
+    "mutation_rates": [0.15, 0.5],
+    "crossover_rates": [0.3, 0.8],
+    "tournament_rates": [0.05, 0.15, 0.5],
+    "population_sizes": [25,100,500]
+}
+runs_per_experiment = 10
+iterations_per_run = 10000
