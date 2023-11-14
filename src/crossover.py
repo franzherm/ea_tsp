@@ -10,6 +10,9 @@ class CrossoverFunction(ABC):
 
     @abstractmethod
     def perform_crossover(self, parents: np.ndarray) -> np.ndarray:
+        """
+        Performs crossover on two parents and returns the new child solutions.
+        """
         pass
 
 class PmxCrossover(CrossoverFunction):
@@ -59,7 +62,7 @@ class OrderCrossover(CrossoverFunction):
         #shift parents so that the first index is the first element after the second crossover point that wasn't copied to the child
         values_to_insert = np.array([np.roll(parents[0],shift=-(p2+1)),
                                      np.roll(parents[1],shift=-(p2+1))])
-        #trim values so that the ones copied to the children are excluded
+        #trim values so that the ones already copied to the children are excluded
         number_of_inserted_elements = (p2+1) - p1
         values_to_insert = values_to_insert[:,:(self.chromosome_size - number_of_inserted_elements)]
         #transform from numpy array to python list in order to easily remove elements

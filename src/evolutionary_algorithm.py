@@ -42,7 +42,7 @@ class EvolutionaryAlgorithm:
                                 self.selection_function.select_parent_from_population(self.population.size, cost)])
             parents = self.population.data[parent_indexes]
 
-            #generate children
+            #generate children and maybe perform crossover
             children = parents.copy()
             if self.crossover_rate >= np.random.random():
                 children = self.crossover_function.perform_crossover(parents)

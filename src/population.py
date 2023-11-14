@@ -11,6 +11,7 @@ class Population(ABC):
 
     @abstractmethod
     def is_valid_population(self) -> bool:
+        "This method is used for testing purposes to ensure that operators maintained the characteristics of a permutation"
         pass
     
     @abstractmethod
@@ -35,7 +36,6 @@ class TspPermutationPopulation(Population):
     def is_valid_population(data: np.ndarray) -> bool:
         return np.apply_along_axis(lambda x: np.unique(x).size == data.shape[1],arr=data, axis=1).all()
     
-    #TODO: mention why city 0 was set to be the starting point in report
     def _generate_initial_population(size: int, chromosome_length: int, random_seed: int):
         generator = np.random.default_rng(random_seed)
         permutation_elements = np.arange(start=1,stop=chromosome_length+1,step=1) #city 0 should be the implicit starting point for every solution

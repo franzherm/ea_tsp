@@ -10,5 +10,5 @@ class FitnessFunction:
         pop = np.column_stack((city0, population)) # add city 0 to the start of every solution
         pop_shifted = np.column_stack((population, city0)) # add city 0 to the end of every solution
 
-        cost_array = self.distance_matrix[pop,pop_shifted]
-        return np.sum(cost_array, axis=1)
+        cost_array = self.distance_matrix[pop,pop_shifted] # retrieve costs for travel between cities at corresponding positions
+        return np.sum(cost_array, axis=1) #sum up to get total cost and return

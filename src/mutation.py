@@ -48,10 +48,10 @@ class InversionMutation(MutationFunction):
         number_of_individuals, number_of_genes = individuals.shape
 
         for i in range(number_of_individuals):
-            p1,p2 = np.random.choice(number_of_genes, size=2, replace=False)
-            slice_length = (p2 - p1 + 1) if p2 >= p1 else (number_of_genes - p1) + (p2 + 1)
+            p1,p2 = np.random.choice(number_of_genes, size=2, replace=False) #bounds of inversion interval
+            slice_length = (p2 - p1 + 1) if p2 >= p1 else (number_of_genes - p1) + (p2 + 1) #length of inversion interval
 
-            rolled_individual = np.roll(individuals[i],-p1) #shift so that p1 is at index 0
+            rolled_individual = np.roll(individuals[i],-p1) #shift individuals so that p1 is at index 0
             inverted_slice = rolled_individual[:slice_length][::-1] #get the slice and invert
             rolled_individual[:slice_length] = inverted_slice #put inverted slice in individual
             individuals[i] = np.roll(rolled_individual,p1) #shift back
